@@ -15,6 +15,7 @@ As part of our Software Development Tools we were tasked with building a note ta
 
 * kotlin-logging (2.1.23)
 * slf4j-simple (1.7.36)
+* JUnit 5 (5.8.1)
 
 ### Installing
 
@@ -44,7 +45,7 @@ As part of our Software Development Tools we were tasked with building a note ta
 
 
 
-Any advise for common problems or issues.
+Any advice for common problems or issues.
 ```
 command to run if program contains helper info
 ```
@@ -57,6 +58,16 @@ Josh Crotty
 [@Zaradin](https://github.com/Zaradin)
 
 ## Version History
+* 2.0
+  * **Archived and Non-Archived Notes functionality implemented**
+    * listActiveNotes(): String
+    * listArchivedNotes(): String
+    * numberOfArchivedNotes(): Int
+    * numberOfActiveNotes(): Int
+  * **List Notes by Note priority level (1-5)**
+    * listNotesBySelectedPriority(priority: Int): String
+    * numberOfNotesByPriority(priority: Int): Int
+  * **JUnit Tests passing for each of the implemented functions for current release**
 * 1.0
   * Menu items for Adding, Listing, Updating and Deleting a Note. No Note model is added yet; the menu structure is a skeleton.
   * Logging capabilities are added via MicroUtils Kotlin-Logging.
