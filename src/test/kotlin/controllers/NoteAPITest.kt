@@ -113,6 +113,24 @@ class NoteAPITest {
             assertEquals(6, populatedNotes!!.numberOfActiveNotes())
         }
 
+        @Test
+        fun `listNotesBySelectedPriority() returns Notes based on the priority`(){
+            assertTrue(populatedNotes!!.listNotesBySelectedPriority(1).contains("Summer Holiday to France"))
+            val newNote = Note("Study Lambdas", 1, "College", false)
+            assertTrue(populatedNotes!!.add(newNote))
+            val notes = populatedNotes!!.listNotesBySelectedPriority(1)
+            assertTrue(notes.contains("Summer Holiday to France"))
+            assertTrue(notes.contains("Study Lambdas"))
+        }
+
+        @Test
+        fun `numberOfNotesByPriority()returns the number of notes based on the priority passed`(){
+            assertEquals(2, populatedNotes!!.numberOfNotesByPriority(4))
+            val newNote = Note("Study Lambdas", 4, "College", false)
+            assertTrue(populatedNotes!!.add(newNote))
+            assertEquals(3, populatedNotes!!.numberOfNotesByPriority(4))
+        }
+
     }
 
 }
