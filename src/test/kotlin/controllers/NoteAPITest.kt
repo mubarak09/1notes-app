@@ -85,6 +85,34 @@ class NoteAPITest {
             assertTrue(notesString.contains("swim"))
             assertTrue(notesString.contains("summer holiday"))
         }
+
+        @Test
+        fun `listActiveNotes() returns Notes that have isNoteArchived set to false`(){
+            assertTrue(!populatedNotes!!.listActiveNotes().contains("No notes stored") || !populatedNotes!!.listActiveNotes().contains("No active notes stored"))
+        }
+
+        @Test
+        fun `listArchivedNotes() returns Notes that have isNoteArchived set to true`() {
+            assertEquals("No archived notes stored", populatedNotes!!.listArchivedNotes())
+
+        }
+
+        @Test
+        fun `numberOfArchivedNotes() returns the amount of Notes that are Archived`() {
+            assertEquals(0, populatedNotes!!.numberOfArchivedNotes())
+            val newNote = Note("Study Lambdas", 1, "College", true)
+            assertTrue(populatedNotes!!.add(newNote))
+            assertEquals(1, populatedNotes!!.numberOfArchivedNotes())
+        }
+
+        @Test
+        fun `numberOfActiveNotes() returns the amount of Notes that are Active`() {
+            assertEquals(5, populatedNotes!!.numberOfActiveNotes())
+            val newNote = Note("Study Lambdas", 1, "College", false)
+            assertTrue(populatedNotes!!.add(newNote))
+            assertEquals(6, populatedNotes!!.numberOfActiveNotes())
+        }
+
     }
 
 }
