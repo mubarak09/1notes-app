@@ -35,9 +35,16 @@ class NoteAPI {
         return (index >= 0 && index < list.size)
     }
 
-
-    // method for listing all the active notes
     /*
+    function that will return true if the index passed to it is valid in the notes collection
+     */
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, notes);
+    }
+
+    /*
+    function for listing all the active notes
+
     * First check if the note arraylist is empty or not
     * Then loop through the ArrayList also checking the isNoteArchived variable
     * If isNoteArchived is false then add that note to the list that will be returned.
@@ -146,5 +153,27 @@ class NoteAPI {
             notes.removeAt(indexToDelete)
         } else null
     }
+
+    /*
+    Update a note by index
+    Index of the note to be updated is passed
+    And the new note is also passed which will be stored in the same index
+     */
+    fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
+        //find the note object by the index number
+        val foundNote = findNote(indexToUpdate)
+
+        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
+        if ((foundNote != null) && (note != null)) {
+            foundNote.noteTitle = note.noteTitle
+            foundNote.notePriority = note.notePriority
+            foundNote.noteCategory = note.noteCategory
+            return true
+        }
+
+        //if the note was not found, return false, indicating that the update was not successful
+        return false
+    }
+
 
 }
