@@ -139,4 +139,12 @@ class NoteAPI {
             return numOfNotes
         }
     }
+
+    // Delete a note from the collection of notes, while also checking if the index is valid
+    fun deleteNote(indexToDelete: Int): Note? {
+        return if (isValidListIndex(indexToDelete, notes)) {
+            notes.removeAt(indexToDelete)
+        } else null
+    }
+
 }
