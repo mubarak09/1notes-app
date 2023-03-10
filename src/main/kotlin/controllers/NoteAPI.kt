@@ -192,5 +192,17 @@ class NoteAPI(serializerType: Serializer) {
         return false
     }
 
+    /*
+    Archive a Note
+    get index of note passed, get note by the index and set isNoteArchived = true
+     */
+    fun archiveNoteByIndex(indexToArchive: Int): Boolean{
+        val noteToArchive = findNote(indexToArchive)
+        if (noteToArchive != null) {
+            noteToArchive.isNoteArchived = true
+            return true
+        }
+        return false
+    }
 
 }

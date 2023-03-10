@@ -30,6 +30,7 @@ fun mainMenu() : Int {
          > |   2) List all notes            |
          > |   3) Update a note             |
          > |   4) Delete a note             |
+         > |   5) Archive a note
          > |   20) Save notes               |
          > |   21) Load notes               |
          > ----------------------------------
@@ -113,6 +114,7 @@ fun runMenu() {
             2  -> listNotes()
             3  -> updateNote()
             4  -> deleteNote()
+            5  -> archiveNote()
             0  -> exitApp()
             20 -> save()
             21 -> load()
@@ -137,3 +139,23 @@ fun load() {
     }
 }
 
+
+/*
+Archive a note by index specified by user
+ */
+fun archiveNote(){
+    // only list active notes, as we don't need to archive notes that have been done so already
+    println(noteAPI.listActiveNotes())
+    if(noteAPI.numberOfActiveNotes() > 0){
+        // The index of the note to be archived
+        var indexToArchive: Int = readNextInt("Please enter an index of the note: ")
+        if(noteAPI.isValidIndex(indexToArchive)){
+            noteAPI.archiveNoteByIndex(indexToArchive)
+            println("The note has successfully been archived")
+        } else {
+            println("Index of note is invalid")
+        }
+    } else {
+        println("There is no active notes")
+    }
+}
