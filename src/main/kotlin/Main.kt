@@ -27,12 +27,27 @@ fun mainMenu() : Int {
          > ----------------------------------
          > | NOTE MENU                      |
          > |   1) Add a note                |
-         > |   2) List all notes            |
+         > |   2) List notes                |
          > |   3) Update a note             |
          > |   4) Delete a note             |
-         > |   5) Archive a note
+         > |   5) Archive a note            |
          > |   20) Save notes               |
          > |   21) Load notes               |
+         > ----------------------------------
+         > |   0) Exit                      |
+         > ----------------------------------
+         > ==>> """.trimMargin(">"))
+}
+
+fun subMenu() : Int {
+    return ScannerInput.readNextInt(""" 
+         > ----------------------------------
+         > |        LIST NOTES MENU         |
+         > ----------------------------------
+         > | LIST NOTE SUB-MENU             |
+         > |   1) List all notes            |
+         > |   2) List active notes         |
+         > |   3) List archived notes       |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -111,7 +126,7 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1  -> addNote()
-            2  -> listNotes()
+            2  -> listNotesSubmenu()
             3  -> updateNote()
             4  -> deleteNote()
             5  -> archiveNote()
@@ -121,6 +136,26 @@ fun runMenu() {
             else -> println("Invalid option entered: ${option}")
         }
     } while (true)
+}
+
+/*
+SUB-MENU for listing notes
+3 options:
+Listing all notes that are saved within the system
+Listing only active notes
+Listing archived notes
+ */
+fun listNotesSubmenu(){
+    do {
+        val option = subMenu()
+        when (option) {
+            1 -> listNotes()
+            2 -> noteAPI.listActiveNotes()
+            3 -> noteAPI.listArchivedNotes()
+            0 -> exitApp()
+            else -> println("Invalid option entered: ${option}")
+        }
+    } while(true)
 }
 
 fun save() {
