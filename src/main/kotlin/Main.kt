@@ -174,7 +174,6 @@ fun load() {
     }
 }
 
-
 /*
 Archive a note by index specified by user
  */

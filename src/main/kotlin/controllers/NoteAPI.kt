@@ -109,26 +109,19 @@ class NoteAPI(serializerType: Serializer) {
     }
 
     fun numberOfArchivedNotes(): Int {
-        //helper method to determine how many archived notes there are
-        var numOfArchivedNotes: Int = 0
-        for(i in notes.indices){
-            if(notes[i].isNoteArchived){
-                numOfArchivedNotes++
-            }
-        }
-        return numOfArchivedNotes
+        return notes.stream()
+            .filter{note: Note -> note.isNoteArchived}
+            .count()
+            .toInt()
     }
 
     fun numberOfActiveNotes(): Int {
-        //helper method to determine how many active notes there are
-        var numOfActiveNotes: Int = 0
-        for(i in notes.indices){
-            if(!notes[i].isNoteArchived){
-                numOfActiveNotes++
-            }
-        }
-        return numOfActiveNotes
+        return notes.stream()
+            .filter{note: Note -> !note.isNoteArchived}
+            .count()
+            .toInt()
     }
+
 
     fun listNotesBySelectedPriority(priority: Int): String {
         return if (notes.isEmpty()) {
@@ -148,6 +141,22 @@ class NoteAPI(serializerType: Serializer) {
         }
     }
 
+//    fun numberOfNotesByPriority(priority: Int): Int {
+//        //helper method to determine how many notes there are of a specific priority
+//        var numOfNotes: Int = 0
+//
+//        return if (notes.isEmpty()) {
+//            0
+//        } else {
+//            for (i in notes.indices) {
+//                if (notes[i].notePriority == priority) {
+//                    numOfNotes++
+//                }
+//            }
+//            return numOfNotes
+//        }
+//    }
+
     fun numberOfNotesByPriority(priority: Int): Int {
         //helper method to determine how many notes there are of a specific priority
         var numOfNotes: Int = 0
@@ -155,11 +164,9 @@ class NoteAPI(serializerType: Serializer) {
         return if (notes.isEmpty()) {
             0
         } else {
-            for (i in notes.indices) {
-                if (notes[i].notePriority == priority) {
-                    numOfNotes++
-                }
-            }
+            numOfNotes = notes.stream().filter { it.notePriority ==  priority}
+                .count()
+                .toInt()
             return numOfNotes
         }
     }
