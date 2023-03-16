@@ -152,7 +152,7 @@ fun listNotesSubmenu(){
             1 -> listNotes()
             2 -> noteAPI.listActiveNotes()
             3 -> noteAPI.listArchivedNotes()
-            0 -> exitApp()
+            0 -> mainMenu()
             else -> println("Invalid option entered: ${option}")
         }
     } while(true)
