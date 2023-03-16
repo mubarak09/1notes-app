@@ -25,7 +25,7 @@ class NoteAPITest {
 
     @BeforeEach
     fun setup(){
-        learnKotlin = Note("Learning Kotlin", 5, "College", false, "09-002-2023 21:10")
+        learnKotlin = Note("Learning Kotlin", 5, "College", false, "09-02-2023 21:10")
         summerHoliday = Note("Summer Holiday to France", 1, "Holiday", false, "16-03-2023 02:45")
         codeApp = Note("Code App", 4, "Work", false, "05-01-2023 22:59")
         testApp = Note("Test App", 4, "Work", false, "13-03-2023 14:34")

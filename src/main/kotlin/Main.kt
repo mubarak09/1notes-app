@@ -57,6 +57,7 @@ fun subMenu() : Int {
          > |        Extra Features          |
          > |   5) List notes by month       |
          > |   6) List notes by year        |
+         > |   7) List notes by newest date |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -181,6 +182,8 @@ fun listNotesSubmenu(){
             3 -> println(noteAPI.listArchivedNotes())
             4 -> println(noteAPI.listNotesBySelectedPriority(readNextInt("Please Enter a Note Priority to List: ")))
             5 -> println(noteAPI.listNotesByMonth(readNextLine("Please enter a month to search notes, example 'march': ")))
+            6 -> println(noteAPI.listNotesByYear(readNextInt("Please enter a year to search notes, example '2023': ")))
+            7 -> listNotesByDate()
             0 -> mainMenu()
             else -> println("Invalid option entered: ${option}")
         }
@@ -193,6 +196,11 @@ fun save() {
     } catch (e: Exception) {
         System.err.println("Error writing to file: $e")
     }
+}
+
+fun listNotesByDate(){
+    val notes = noteAPI.sortNoteByDate()
+    println(notes)
 }
 
 fun load() {

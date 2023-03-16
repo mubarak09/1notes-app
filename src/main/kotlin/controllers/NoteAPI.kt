@@ -145,8 +145,11 @@ class NoteAPI(serializerType: Serializer) {
         return false
     }
 
-    fun listNoteByDate() : String =
-        notes.sortBy { note -> note.noteTimeStamp  }.toString()
+    fun sortNoteByDate(): String {
+        val sortedNotes = notes.sortedByDescending { it.noteTimeStamp }
+        return formatListString(sortedNotes)
+    }
+
 
 
     /**
@@ -167,6 +170,37 @@ class NoteAPI(serializerType: Serializer) {
         filteredNotes.forEachIndexed { index, note ->
             stringBuilder.append("$index : $note")
         }
+        return stringBuilder.toString()
+    }
+
+    /**
+     * Returns a string representation of notes sorted by year for a given year.
+     */
+    fun listNotesByYear(year: Int): String {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+
+        // Check if there are any notes available
+        if (notes.isEmpty()) {
+            return "No notes stored"
+        }
+        // Filter notes by year using the filter function with a lambda expression
+        val filteredNotes = notes.filter { note ->
+            LocalDateTime.parse(note.noteTimeStamp, formatter).year == year
+        }
+        // Check if there are any notes available for the specified year
+        if (filteredNotes.isEmpty()) {
+            return "There are no notes available for the specified year"
+        }
+        // Sort filtered notes by year using the sortedBy function with a lambda expression
+        val sortedNotes = filteredNotes.sortedBy { note ->
+            LocalDateTime.parse(note.noteTimeStamp, formatter).year
+        }
+        // Build a string representation of the sorted notes using a StringBuilder
+        val stringBuilder = StringBuilder()
+        sortedNotes.forEachIndexed { index, note ->
+            stringBuilder.append("$index : $note")
+        }
+        // Return the string representation of the sorted notes
         return stringBuilder.toString()
     }
 
