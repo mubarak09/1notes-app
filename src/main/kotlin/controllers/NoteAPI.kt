@@ -9,6 +9,13 @@ class NoteAPI(serializerType: Serializer) {
     // ArrayList for notes
     private var notes = ArrayList<Note>()
 
+    // Helper function for formatting notes
+    private fun formatListString(notesToFormat : List<Note>) : String =
+        notesToFormat
+            .joinToString (separator = "\n") { note ->
+                notes.indexOf(note).toString() + ": " + note.toString() }
+
+
     // Load notes
     @Throws(Exception::class)
     fun load() {
@@ -28,11 +35,7 @@ class NoteAPI(serializerType: Serializer) {
 
     fun listAllNotes(): String =
         if (notes.isEmpty()) "No notes stored"
-        else notes.joinToString (separator = "\n") { note ->
-                notes.indexOf(note).toString() + ": " + note.toString() }
-
-
-
+        else formatListString(notes)
 
     fun numberOfNotes(): Int {
         return notes.size
@@ -64,9 +67,7 @@ class NoteAPI(serializerType: Serializer) {
     * */
     fun listActiveNotes(): String =
         if(numberOfActiveNotes() == 0) "No active notes stored"
-            else notes.filter { note -> !note.isNoteArchived }
-                .joinToString(separator = "\n") {note ->
-                    notes.indexOf(note).toString() + ": " + note.toString() }
+            else formatListString(notes.filter { note -> !note.isNoteArchived })
 
     // method for listing all the Archived notes
     /*
@@ -76,34 +77,23 @@ class NoteAPI(serializerType: Serializer) {
     * */
     fun listArchivedNotes(): String =
         if(numberOfArchivedNotes() == 0) "No archived notes stored"
-         else notes.filter { note -> note.isNoteArchived }
-             .joinToString(separator = "\n"){note ->
-                notes.indexOf(note).toString() + ": " + note.toString()}
+         else formatListString(notes.filter { note -> note.isNoteArchived })
 
-    fun numberOfArchivedNotes(): Int {
-        return notes.stream()
-            .filter{note: Note -> note.isNoteArchived}
-            .count()
-            .toInt()
-    }
+    fun numberOfArchivedNotes(): Int = notes.count {note : Note -> note.isNoteArchived}
 
-    fun numberOfActiveNotes(): Int {
-        return notes.stream()
-            .filter{note: Note -> !note.isNoteArchived}
-            .count()
-            .toInt()
-    }
+    fun numberOfActiveNotes(): Int = notes.count{ note: Note -> !note.isNoteArchived}
+
 
     fun searchByTitle(searchString: String) =
-        notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true) }
-            .joinToString (separator = "\n"){ note ->
-                notes.indexOf(note).toString() + ": " + note.toString()}
+        formatListString(notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true) })
 
     fun listNotesBySelectedPriority(priority: Int): String =
-        if (numberOfNotesByPriority(priority) == 0) "No notes stored with priority: $priority"
-            else notes.filter { note -> note.notePriority == priority }
-                .joinToString(separator = "\n") { note ->
-                    notes.indexOf(note).toString() + ": " + note.toString()}
+        if (notes.isEmpty()) "No notes stored"
+            else {
+                val listOfNotes = formatListString(notes.filter { note -> note.notePriority == priority })
+                if (listOfNotes.equals("")) "No notes stored with priority: $priority"
+                else "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes\""
+        }
 
 //    fun numberOfNotesByPriority(priority: Int): Int {
 //        //helper method to determine how many notes there are of a specific priority
@@ -121,19 +111,9 @@ class NoteAPI(serializerType: Serializer) {
 //        }
 //    }
 
-    fun numberOfNotesByPriority(priority: Int): Int {
-        //helper method to determine how many notes there are of a specific priority
-        var numOfNotes: Int = 0
-
-        return if (notes.isEmpty()) {
-            0
-        } else {
-            numOfNotes = notes.stream().filter { it.notePriority ==  priority}
-                .count()
-                .toInt()
-            return numOfNotes
-        }
-    }
+    fun numberOfNotesByPriority(priority: Int): Int =
+        if (notes.isEmpty()) 0
+        else notes.count { it.notePriority ==  priority}
 
     // Delete a note from the collection of notes, while also checking if the index is valid
     fun deleteNote(indexToDelete: Int): Note? {
