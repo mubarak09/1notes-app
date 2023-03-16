@@ -8,6 +8,9 @@ import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
@@ -61,7 +64,11 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+    val noteTimeStamp = LocalDateTime.now().format(formatter)
+
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, noteTimeStamp))
 
     if (isAdded) {
         println("Added Successfully")
@@ -87,8 +94,11 @@ fun updateNote() {
             val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
             val noteCategory = readNextLine("Enter a category for the note: ")
 
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+            val noteTimeStamp = LocalDateTime.now().format(formatter)
+
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, noteTimeStamp))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
