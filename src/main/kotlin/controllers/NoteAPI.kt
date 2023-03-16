@@ -2,6 +2,11 @@ package controllers
 
 import models.Note
 import persistence.Serializer
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+
+
 
 class NoteAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
@@ -95,22 +100,6 @@ class NoteAPI(serializerType: Serializer) {
                 else "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes\""
         }
 
-//    fun numberOfNotesByPriority(priority: Int): Int {
-//        //helper method to determine how many notes there are of a specific priority
-//        var numOfNotes: Int = 0
-//
-//        return if (notes.isEmpty()) {
-//            0
-//        } else {
-//            for (i in notes.indices) {
-//                if (notes[i].notePriority == priority) {
-//                    numOfNotes++
-//                }
-//            }
-//            return numOfNotes
-//        }
-//    }
-
     fun numberOfNotesByPriority(priority: Int): Int =
         if (notes.isEmpty()) 0
         else notes.count { it.notePriority ==  priority}
@@ -154,6 +143,65 @@ class NoteAPI(serializerType: Serializer) {
             return true
         }
         return false
+    }
+
+    fun sortNoteByDate(): String {
+        val sortedNotes = notes.sortedByDescending { it.noteTimeStamp }
+        return formatListString(sortedNotes)
+    }
+
+
+
+    /**
+     * Returns a string representation of all notes filtered by month.
+     */
+    fun listNotesByMonth(month: String): String {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+        val filteredNotes = notes.filter { note ->
+            LocalDateTime.parse(note.noteTimeStamp, formatter).month.toString().equals(month, ignoreCase = true)
+        }
+        if (notes.isEmpty()) {
+            return "No notes stored"
+        }
+        if (filteredNotes.isEmpty()) {
+            return "There are no notes available for the specified month"
+        }
+        val stringBuilder = StringBuilder()
+        filteredNotes.forEachIndexed { index, note ->
+            stringBuilder.append("$index : $note")
+        }
+        return stringBuilder.toString()
+    }
+
+    /**
+     * Returns a string representation of notes sorted by year for a given year.
+     */
+    fun listNotesByYear(year: Int): String {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+
+        // Check if there are any notes available
+        if (notes.isEmpty()) {
+            return "No notes stored"
+        }
+        // Filter notes by year using the filter function with a lambda expression
+        val filteredNotes = notes.filter { note ->
+            LocalDateTime.parse(note.noteTimeStamp, formatter).year == year
+        }
+        // Check if there are any notes available for the specified year
+        if (filteredNotes.isEmpty()) {
+            return "There are no notes available for the specified year"
+        }
+        // Sort filtered notes by year using the sortedBy function with a lambda expression
+        val sortedNotes = filteredNotes.sortedBy { note ->
+            LocalDateTime.parse(note.noteTimeStamp, formatter).year
+        }
+        // Build a string representation of the sorted notes using a StringBuilder
+        val stringBuilder = StringBuilder()
+        sortedNotes.forEachIndexed { index, note ->
+            stringBuilder.append("$index : $note")
+        }
+        // Return the string representation of the sorted notes
+        return stringBuilder.toString()
     }
 
 }

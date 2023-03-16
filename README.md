@@ -27,22 +27,46 @@ As part of our Software Development Tools we were tasked with building a note ta
 * After the program has been built successfully
 * Click the run button within intellij
 
-## Basic menu for the application.
+## Main menu for the application.
 ```
- |        NOTE KEEPER APP         |
- ----------------------------------
- | NOTE MENU                      |
- |   1) Add a note                |
- |   2) List all notes            |
- |   3) Update a note             |
- |   4) Delete a note             |
- ----------------------------------
- |   0) Exit                      |
- ----------------------------------
- ==>> 
-
+         > ----------------------------------
+         > |        NOTE KEEPER APP         |
+         > ----------------------------------
+         > | NOTE MENU                      |
+         > |   1) Add a note                |
+         > |   2) List notes                |
+         > |   3) Update a note             |
+         > |   4) Delete a note             |
+         > |   5) Archive a note            |
+         > |   6) Search Notes              |
+         > |   20) Save notes               |
+         > |   21) Load notes               |
+         > ----------------------------------
+         > |   0) Exit                      |
+         > ----------------------------------
+         > ==>>  
 ```
 
+## List Notes Sub-Menu
+```
+         > ----------------------------------
+         > |        LIST NOTES MENU         |
+         > ----------------------------------
+         > | LIST NOTE SUB-MENU             |
+         > |   1) List all notes            |
+         > |   2) List active notes         |
+         > |   3) List archived notes       |
+         > |   4) List notes by Priority    |
+         > |--------------------------------|
+         > |        Extra Features          |
+         > |   5) List notes by month       |
+         > |   6) List notes by year        |
+         > |   7) List notes by newest date |
+         > ----------------------------------
+         > |   0) Exit                      |
+         > ----------------------------------
+         > ==>> 
+```
 
 
 Any advice for common problems or issues.
@@ -58,6 +82,13 @@ Josh Crotty
 [@Zaradin](https://github.com/Zaradin)
 
 ## Version History
+* 3.0
+  * Delete Notes functionality implemented
+    * deleteNote()
+  * Updating Notes
+    * updateNote()
+  * Persistence with JSON & XML
+    * Used serializer for (JSON & XML) that inherits different implementations
 * 2.0
   * **Archived and Non-Archived Notes functionality implemented**
     * listActiveNotes(): String

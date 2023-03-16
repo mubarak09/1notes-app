@@ -8,6 +8,9 @@ import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
@@ -31,7 +34,7 @@ fun mainMenu() : Int {
          > |   3) Update a note             |
          > |   4) Delete a note             |
          > |   5) Archive a note            |
-         > |   6) Search Notes
+         > |   6) Search Notes              |
          > |   20) Save notes               |
          > |   21) Load notes               |
          > ----------------------------------
@@ -50,6 +53,11 @@ fun subMenu() : Int {
          > |   2) List active notes         |
          > |   3) List archived notes       |
          > |   4) List notes by Priority    |
+         > |--------------------------------|
+         > |        Extra Features          |
+         > |   5) List notes by month       |
+         > |   6) List notes by year        |
+         > |   7) List notes by newest date |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -61,7 +69,11 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note: ")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+    val noteTimeStamp = LocalDateTime.now().format(formatter)
+
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, noteTimeStamp))
 
     if (isAdded) {
         println("Added Successfully")
@@ -87,8 +99,11 @@ fun updateNote() {
             val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
             val noteCategory = readNextLine("Enter a category for the note: ")
 
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+            val noteTimeStamp = LocalDateTime.now().format(formatter)
+
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, noteTimeStamp))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -166,6 +181,9 @@ fun listNotesSubmenu(){
             2 -> println(noteAPI.listActiveNotes())
             3 -> println(noteAPI.listArchivedNotes())
             4 -> println(noteAPI.listNotesBySelectedPriority(readNextInt("Please Enter a Note Priority to List: ")))
+            5 -> println(noteAPI.listNotesByMonth(readNextLine("Please enter a month to search notes, example 'march': ")))
+            6 -> println(noteAPI.listNotesByYear(readNextInt("Please enter a year to search notes, example '2023': ")))
+            7 -> listNotesByDate()
             0 -> mainMenu()
             else -> println("Invalid option entered: ${option}")
         }
@@ -178,6 +196,11 @@ fun save() {
     } catch (e: Exception) {
         System.err.println("Error writing to file: $e")
     }
+}
+
+fun listNotesByDate(){
+    val notes = noteAPI.sortNoteByDate()
+    println(notes)
 }
 
 fun load() {
