@@ -94,6 +94,10 @@ class NoteAPI(serializerType: Serializer) {
             .toInt()
     }
 
+    fun searchByTitle(searchString: String) =
+        notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true) }
+            .joinToString (separator = "\n"){ note ->
+                notes.indexOf(note).toString() + ": " + note.toString()}
 
     fun listNotesBySelectedPriority(priority: Int): String =
         if (numberOfNotesByPriority(priority) == 0) "No notes stored with priority: $priority"
