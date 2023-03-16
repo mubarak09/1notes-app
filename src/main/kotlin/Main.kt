@@ -48,6 +48,7 @@ fun subMenu() : Int {
          > |   1) List all notes            |
          > |   2) List active notes         |
          > |   3) List archived notes       |
+         > |   4) List notes by Priority    |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -150,8 +151,9 @@ fun listNotesSubmenu(){
         val option = subMenu()
         when (option) {
             1 -> listNotes()
-            2 -> noteAPI.listActiveNotes()
-            3 -> noteAPI.listArchivedNotes()
+            2 -> println(noteAPI.listActiveNotes())
+            3 -> println(noteAPI.listArchivedNotes())
+            4 -> println(noteAPI.listNotesBySelectedPriority(readNextInt("Please Enter a Note Priority to List: ")))
             0 -> mainMenu()
             else -> println("Invalid option entered: ${option}")
         }
