@@ -1,22 +1,24 @@
 import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
+import persistence.CBORSerializer
 import persistence.JSONSerializer
-import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
+
+// Persistence formats
 //private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
-private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+//private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+private val noteAPI = NoteAPI(CBORSerializer(File("notes.cbor")))
+
 
 
 fun main(args: Array<String>) {

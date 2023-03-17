@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import persistence.CBORSerializer
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
@@ -261,6 +262,9 @@ class NoteAPITest {
     @Nested
     inner class PersistenceTests {
 
+        /*
+        XML FORMAT TESTS
+         */
         @Test
         fun `saving and loading an empty collection in XML doesn't crash app`() {
             // Saving an empty notes.XML file.
@@ -299,6 +303,9 @@ class NoteAPITest {
             assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
         }
 
+        /*
+        JSON FORMAT TESTS
+         */
         @Test
         fun `saving and loading an empty collection in JSON doesn't crash app`() {
             // Saving an empty notes.json file.
@@ -336,6 +343,7 @@ class NoteAPITest {
             assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
             assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
         }
+
     }
 
     @Nested
