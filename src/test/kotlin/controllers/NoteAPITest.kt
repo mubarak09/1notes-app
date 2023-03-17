@@ -344,6 +344,47 @@ class NoteAPITest {
             assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
         }
 
+        /*
+        CBOR FORMAT TESTS
+         */
+
+        @Test
+        fun `saving and loading an empty collection in CBOR doesn't crash app`() {
+            // Saving an empty notes.CBOR file.
+            val storingNotes = NoteAPI(CBORSerializer(File("notes.cbor")))
+            storingNotes.store()
+
+            //Loading the empty notes.cbor file into a new object
+            val loadedNotes = NoteAPI(CBORSerializer(File("notes.cbor")))
+            loadedNotes.load()
+
+            //Comparing the source of the notes (storingNotes) with the CBOR loaded notes (loadedNotes)
+            assertEquals(0, storingNotes.numberOfNotes())
+            assertEquals(0, loadedNotes.numberOfNotes())
+            assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
+        }
+
+        @Test
+        fun `saving and loading an loaded collection in CBOR doesn't loose data`() {
+            // Storing 3 notes to the notes.CBOR file.
+            val storingNotes = NoteAPI(CBORSerializer(File("notes.cbor")))
+            storingNotes.add(testApp!!)
+            storingNotes.add(swim!!)
+            storingNotes.add(summerHoliday!!)
+            storingNotes.store()
+
+            //Loading notes.xml into a different collection
+            val loadedNotes = NoteAPI(CBORSerializer(File("notes.cbor")))
+            loadedNotes.load()
+
+            //Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
+            assertEquals(3, storingNotes.numberOfNotes())
+            assertEquals(3, loadedNotes.numberOfNotes())
+            assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
+            assertEquals(storingNotes.findNote(0), loadedNotes.findNote(0))
+            assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
+            assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
+        }
     }
 
     @Nested
