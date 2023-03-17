@@ -186,7 +186,7 @@ fun listNotesSubmenu(){
             5 -> println(noteAPI.listNotesByMonth(readNextLine("Please enter a month to search notes, example 'march': ")))
             6 -> println(noteAPI.listNotesByYear(readNextInt("Please enter a year to search notes, example '2023': ")))
             7 -> listNotesByDate()
-            0 -> mainMenu()
+            0 -> runMenu()
             else -> println("Invalid option entered: ${option}")
         }
     } while(true)
