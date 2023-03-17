@@ -1,22 +1,24 @@
 import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
+import persistence.CBORSerializer
 import persistence.JSONSerializer
-import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
+
+// Persistence formats
 //private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
-private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+//private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+private val noteAPI = NoteAPI(CBORSerializer(File("notes.cbor")))
+
 
 
 fun main(args: Array<String>) {
@@ -184,7 +186,7 @@ fun listNotesSubmenu(){
             5 -> println(noteAPI.listNotesByMonth(readNextLine("Please enter a month to search notes, example 'march': ")))
             6 -> println(noteAPI.listNotesByYear(readNextInt("Please enter a year to search notes, example '2023': ")))
             7 -> listNotesByDate()
-            0 -> mainMenu()
+            0 -> runMenu()
             else -> println("Invalid option entered: ${option}")
         }
     } while(true)
