@@ -82,6 +82,20 @@ Josh Crotty
 [@Zaradin](https://github.com/Zaradin)
 
 ## Version History
+* 4.0
+  * New timestamps for all new notes that are created with the format "dd-MM-yyyy HH:mm".
+  * CBOR persist functionality whereby notes can now be saved as Concise Binary Object Representation. 
+  * Minor bug fix 
+    * fixed minor bug with the sub-menu for listing notes, when trying to exit to the main menu, the main menu doesn't take user input and
+      directs it back to the sub-menu even after trying to exit, (infinite loop).
+  * Refactoring
+    * Counting functions to utilize lamdas 
+    * Listing functions to utilize lamdas 
+    * Searching functions to utilize lamdas
+  * New listing functions
+    * List Notes by Date (Newest to Oldest)
+    * List Notes by Month
+    * List Notes by Year
 * 3.0
   * Delete Notes functionality implemented
     * deleteNote()
