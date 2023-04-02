@@ -78,8 +78,8 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-Josh Crotty
-[@Zaradin](https://github.com/Zaradin)
+Mubarak Al
+[@Mubarak09](https://github.com/mubarak09)
 
 ## Version History
 * 4.0
